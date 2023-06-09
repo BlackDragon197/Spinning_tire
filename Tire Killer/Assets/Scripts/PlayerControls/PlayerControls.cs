@@ -23,7 +23,7 @@ public class PlayerControls : MonoBehaviour
         _playerInputs = GetComponent<PlayerInputHandler>();
         _characterController = GetComponent<CharacterController>();
 
-        _velocity = _gravity * Time.fixedDeltaTime;
+        _velocity = _gravity * Time.deltaTime;
         _gravityVector = new Vector3(0, _velocity, 0);
     }
 
@@ -32,30 +32,30 @@ public class PlayerControls : MonoBehaviour
         _currentSpeed = _playerData.PermanentSpeed;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         Gravity();
 
-        if (_playerInputs.XInput.x > 0 && _currentAngle > -_playerData.WheelAngle)
+        if (_playerInputs.MoveInput.x > 0 && _currentAngle > -_playerData.WheelAngle)
         {
-            _currentAngle += -_playerInputs.XInput.x * _playerData.RotationUnit;
+            _currentAngle += -_playerInputs.MoveInput.x * _playerData.RotationUnit;
         }
-        else if (_playerInputs.XInput.x < 0 && _currentAngle < _playerData.WheelAngle)
+        else if (_playerInputs.MoveInput.x < 0 && _currentAngle < _playerData.WheelAngle)
         {
-            _currentAngle += -_playerInputs.XInput.x * _playerData.RotationUnit;
+            _currentAngle += -_playerInputs.MoveInput.x * _playerData.RotationUnit;
         }
 
-        if (_playerInputs.XInput.y > 0)
+        if (_playerInputs.MoveInput.y > 0)
         {
-            _currentSpeed += _playerInputs.XInput.y * 0.01f;
+            _currentSpeed += _playerInputs.MoveInput.y * 0.01f;
         }
-        else if (_playerInputs.XInput.y < 0 && _currentSpeed > _playerData.PermanentSpeed)
+        else if (_playerInputs.MoveInput.y < 0 && _currentSpeed > _playerData.PermanentSpeed)
         {
-            _currentSpeed += _playerInputs.XInput.y * 0.01f;
+            _currentSpeed += _playerInputs.MoveInput.y * 0.01f;
         }
 
         Vector3 moveDirection = new Vector3(_currentSpeed, 0, _currentAngle * 0.1f);
-          _characterController.Move(moveDirection * _playerData.Speed * Time.fixedDeltaTime);
+          _characterController.Move(moveDirection * _playerData.Speed * Time.deltaTime);
    
         _currentRotation += _characterController.velocity.x + _characterController.velocity.y;
         transform.localRotation = Quaternion.Euler(0, -_currentAngle, -_currentRotation);
