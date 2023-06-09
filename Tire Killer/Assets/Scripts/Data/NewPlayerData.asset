@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1edee0a3a51cf24f87c43afc92c2a01, type: 3}
   m_Name: NewPlayerData
   m_EditorClassIdentifier: 
-  Speed: 5
-  PermanentSpeed: 1
-  WheelAngle: 20
-  RoatationUnit: 2
+  Speed: 3
+  PermanentSpeed: 2
+  WheelAngle: 90
+  RotationUnit: 0.3
   BoostSpeed: 0
