@@ -12,5 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2b089ca41793344ca722a21582dde24, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
-  Name: 
-  Description: 
+  Miles: 104
+  DeathCount: 3
+  Coins: 1
+  Wheels: 1
+  Wrenches: 1
+  LevelsData:
+  - {fileID: 11400000, guid: d5fcc6e8992a8ad49879427e9c805e4f, type: 2}
+  - {fileID: 11400000, guid: a3145dfbaa673924f90886b66374f93e, type: 2}
