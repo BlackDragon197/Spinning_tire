@@ -16,4 +16,6 @@ MonoBehaviour:
   PermanentSpeed: 2
   WheelAngle: 90
   RotationUnit: 0.3
-  BoostSpeed: 0
+  BoostSpeed: 10
+  CanSpeedBoost: 0
+  CanDestroy: 0

@@ -6,14 +6,35 @@ using UnityEngine;
 
 public class FileHandler : MonoBehaviour
 {
+
+
+    [SerializeField]
+    private LevelDataSO[] LevelSOs;
+
     private string _dataPath = "";
     private void Awake()
     {
         SetDataPath();
+        if (!File.Exists(_dataPath))
+        {
+            SaveManager.Instance.GameDataSO.SaveLevelData(CreateLevelElements());
+        }
     }
+
     private void SetDataPath()
     {
         _dataPath = Application.persistentDataPath + "/MySaveData.json";
+    }
+
+    private Level[] CreateLevelElements()
+    {
+        Level[] levels = new Level[LevelSOs.Length];
+        for (var i = 0; i < levels.Length; i++)
+        {
+            levels[i] = new Level(LevelSOs[i].LevelID, LevelSOs[i].LevelName, LevelSOs[i].isOpened, LevelSOs[i].Completed, LevelSOs[i].Stars);
+        }
+
+        return levels;
     }
     public void SaveToFile(GameDataSO gameDataObject)
     {

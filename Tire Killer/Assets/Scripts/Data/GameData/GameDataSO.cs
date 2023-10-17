@@ -19,7 +19,13 @@ public class GameDataSO : ScriptableObject
     [SerializeField]
     private int Wrenches = 0;
     [SerializeField]
-    private LevelDataSO[] LevelsData;
+    private Level[] LevelsData;
+
+
+    public Level[] GetLevelsData()
+    {
+        return LevelsData;
+    }
 
     public void SaveMiles(float miles)
     {
@@ -45,6 +51,10 @@ public class GameDataSO : ScriptableObject
         Wrenches += wrenches;
     }
 
+    public void SaveLevelData(Level[] levelsData)
+    {
+        LevelsData = levelsData;
+    }
     public void SaveLevelData(string levelID, bool opened, bool completed, int stars)
     {
         var res = Array.Find(LevelsData, levelInfo => levelInfo.LevelID == levelID);

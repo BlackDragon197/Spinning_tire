@@ -18,5 +18,13 @@ MonoBehaviour:
   Wheels: 1
   Wrenches: 1
   LevelsData:
-  - {fileID: 11400000, guid: d5fcc6e8992a8ad49879427e9c805e4f, type: 2}
-  - {fileID: 11400000, guid: a3145dfbaa673924f90886b66374f93e, type: 2}
+  - LevelID: 1
+    LevelName: Level One
+    isOpened: 1
+    Completed: 1
+    Stars: 4
+  - LevelID: 2
+    LevelName: Level Two
+    isOpened: 1
+    Completed: 1
+    Stars: 2

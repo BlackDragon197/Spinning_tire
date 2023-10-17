@@ -16,6 +16,8 @@ public class PlayerControls : MonoBehaviour
     private float _gravity = -9.81f;
     private Vector3 _gravityVector;
 
+    private bool _canBeUsed = true;
+
     [SerializeField]
     private PlayerData _playerData;
     private void Awake()
@@ -23,26 +25,30 @@ public class PlayerControls : MonoBehaviour
         _playerInputs = GetComponent<PlayerInputHandler>();
         _characterController = GetComponent<CharacterController>();
 
-        _velocity = _gravity * Time.deltaTime;
+        _velocity = _gravity * Time.fixedDeltaTime;
         _gravityVector = new Vector3(0, _velocity, 0);
     }
 
     private void Start()
     {
         _currentSpeed = _playerData.PermanentSpeed;
+        AdManager.Instance.LoadRewardedAd();
+        AdManager.Instance.LoadInterstitialAd();
     }
 
     private void Update()
     {
         Gravity();
-
-        if (_playerInputs.MoveYInput.x > 0 && _currentAngle > -_playerData.WheelAngle)
+        if (GameStateManager.Instance.state == GameStateManager.GameStates.INGAME)
         {
-            _currentAngle += -_playerInputs.MoveYInput.x * _playerData.RotationUnit;
-        }
-        else if (_playerInputs.MoveYInput.x < 0 && _currentAngle < _playerData.WheelAngle)
-        {
-            _currentAngle += -_playerInputs.MoveYInput.x * _playerData.RotationUnit;
+            if (_playerInputs.MoveYInput.x > 0 && _currentAngle > -_playerData.WheelAngle)
+            {
+                _currentAngle += -_playerInputs.MoveYInput.x * _playerData.RotationUnit;
+            }
+            else if (_playerInputs.MoveYInput.x < 0 && _currentAngle < _playerData.WheelAngle)
+            {
+                _currentAngle += -_playerInputs.MoveYInput.x * _playerData.RotationUnit;
+            }
         }
 
         if (_playerInputs.MoveXInput.y > 0)
@@ -54,9 +60,15 @@ public class PlayerControls : MonoBehaviour
             _currentSpeed += _playerInputs.MoveXInput.y * 0.01f;
         }
 
+        if (_playerInputs.SpeedBoostActivate && _canBeUsed && _playerData.CanSpeedBoost)
+        {
+            BoostSpeed();
+            _playerData.CanSpeedBoost = false;
+        }
+
         Vector3 moveDirection = new Vector3(_currentSpeed, 0, _currentAngle * 0.1f);
-          _characterController.Move(moveDirection * _playerData.Speed * Time.deltaTime);
-   
+        _characterController.Move(moveDirection * _playerData.Speed * Time.deltaTime);
+
         _currentRotation += _characterController.velocity.x + _characterController.velocity.y;
         transform.localRotation = Quaternion.Euler(0, -_currentAngle, -_currentRotation);
     }
@@ -64,5 +76,19 @@ public class PlayerControls : MonoBehaviour
     private void Gravity()
     {
         _characterController.Move(_gravityVector);
+    }
+
+    public void BoostSpeed()
+    {
+        _currentSpeed += _playerData.BoostSpeed;
+        _canBeUsed = false;
+        StartCoroutine(BoostTimeout(new WaitForSeconds(1f)));
+    }
+
+    private IEnumerator BoostTimeout(WaitForSeconds seconds)
+    {
+        yield return seconds;
+        _canBeUsed = true;
+        _currentSpeed -= _playerData.BoostSpeed;
     }
 }

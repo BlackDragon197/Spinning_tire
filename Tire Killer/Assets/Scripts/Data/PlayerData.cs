@@ -10,5 +10,7 @@ public class PlayerData : ScriptableObject
     public float WheelAngle;
     public float RotationUnit;
     public float BoostSpeed;
+    public bool CanSpeedBoost;
+    public bool CanDestroy;
 
 }

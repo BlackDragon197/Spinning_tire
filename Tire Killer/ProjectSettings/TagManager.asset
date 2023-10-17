@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Obstacle
   - ChaseObject
+  - DestroyCharge
+  - SpeedBoostCharge
   layers:
   - Default
   - TransparentFX
